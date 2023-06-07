@@ -1,0 +1,17 @@
+.btnShow {
+  border: thin solid #6c757d !important;
+}
+.row {
+  width: 30%;
+}
+.btnShow:hover {
+  background-color: #6c757d !important;
+  color: white !important;
+}
+.card {
+  padding-bottom: 4rem;
+}
+.btnSave {
+  margin-top: -2.5rem !important;
+  z-index: 1;
+}

@@ -1,0 +1,50 @@
+.list-group {
+    border: 0 !important;
+}
+
+.image {
+    width: 10rem !important;
+    margin-top: -2rem !important;
+}
+
+h5,
+li {
+    text-transform: capitalize;
+}
+
+.card {
+    width: 80% !important;
+    display: inline-block;
+    margin: 24px !important;
+    padding-bottom: 2rem;
+}
+
+.btnRemove {
+    margin-top: -3rem !important;
+    width: 8rem;
+    z-index: 1;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.card-container>.card {
+    flex-basis: calc(25% - 48px);
+    margin: 24px;
+    padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .card-container>.card {
+        flex-basis: calc(50% - 48px);
+    }
+}
+
+@media (max-width: 576px) {
+    .card-container>.card {
+        flex-basis: calc(100% - 48px);
+    }
+}

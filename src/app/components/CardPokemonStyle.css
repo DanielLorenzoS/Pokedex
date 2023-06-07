@@ -1,0 +1,13 @@
+.list-group {
+    border: 0 !important;
+}
+.image {
+    width: 10rem !important;
+    margin-top: -2rem !important;
+}
+h5, li {
+    text-transform: capitalize;
+}
+.purple {
+    background-color: #8c41c9;
+}
