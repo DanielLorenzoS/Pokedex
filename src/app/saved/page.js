@@ -8,10 +8,23 @@ import listGlobal, { getListGlobal, setListGlobal } from '../globals';
 
 export default function SavedPokemons() {
     const [pokemonDataList, setPokemonDataList] = useState([]); // Estado para la lista de Pokémon guardados
-    const [list, setList] = useState(listGlobal); // Ejemplo de lista de Pokémon guardados
+    const [list, setList] = useState([]); // Ejemplo de lista de Pokémon guardados
 
     useEffect(() => {
-        console.log(list)
+        const fetchData = async () => {
+
+            const response = await fetch(`http://localhost:8000/pokemons`);
+            const data = await response.json();
+            let l = [];
+            data.map(e => l.push(e.pokemon))
+            console.log(l)
+            setList(l)
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
         const fetchData = async () => {
             const dataList = [];
 
@@ -19,7 +32,6 @@ export default function SavedPokemons() {
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
                 const data = await response.json();
                 dataList.push(data);
-                console.log(data.id);
             }
 
             setPokemonDataList(dataList);
@@ -36,7 +48,6 @@ export default function SavedPokemons() {
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
                 const data = await response.json();
                 dataList.push(data);
-                console.log(data.id);
             }
 
             setPokemonDataList(dataList);
@@ -45,12 +56,45 @@ export default function SavedPokemons() {
         fetchData();
     }, [list]);
 
-    const handleRemovePokemon = (index) => {
-        const newList = list.filter(pokemonId => pokemonId !== index);
-        setList(newList);
-        console.log(newList)
-        setListGlobal(newList);
+    const handleRemovePokemon = async (id) => {
+        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este Pokémon de la lista?');
+
+        if (confirmDelete) {
+            try {
+                const response = await fetch(`http://localhost:8000/pokemons/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Post deleted successfully:', data);
+                    const fetchData = async () => {
+
+                        const response = await fetch(`http://localhost:8000/pokemons`);
+                        const data = await response.json();
+                        let l = [];
+                        data.map(e => l.push(e.pokemon))
+                        console.log(l)
+                        setList(l)
+                    };
+            
+                    fetchData();
+                } else {
+                    console.log('Error deleting post:', response.status);
+                }
+            } catch (error) {
+                console.log('Error:', error);
+            }
+            console.log('Pokémon removed successfully.');
+        } else {
+            console.log('Operación cancelada.');
+        }
     };
+
 
     return (
         <>
@@ -60,10 +104,9 @@ export default function SavedPokemons() {
             ) : (
                 <div className='w-100 card-container'>
                     {pokemonDataList.map((pokemonData, index) => (
-                        <div className='w-25 m-auto d-flex flex-column'>
+                        <div className='w-25 m-auto d-flex flex-column' key={index}>
                             <CardPokemon
                                 className="card"
-                                key={pokemonData.id}
                                 urlImage={pokemonData.sprites.other.dream_world.front_default}
                                 nombre={pokemonData.name}
                                 tipo={pokemonData.types[0].type.name}

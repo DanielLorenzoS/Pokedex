@@ -10,14 +10,33 @@ export default function FetchPokemon() {
     const [number, setNumber] = useState(Math.floor(Math.random() * 20) + 1);
     const [pokemonData, setPokemonData] = useState(null);
     const [list, setList] = useState(listGlobal);
-    const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => {
-        setShowModal(true);
-    };
+    const handleAddPokemon = async (id) => {
+        const confirmDelete = window.confirm('¿Estás seguro de que deseas agregar este Pokémon?');
 
-    const closeModal = () => {
-        setShowModal(false);
+        if (confirmDelete) {
+            try {
+                const response = await fetch('http://localhost:8000/pokemons', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    body: JSON.stringify({ pokemon: id }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Post created successfully:', data);
+                } else {
+                    console.log('Error creating post:', response.status);
+                }
+            } catch (error) {
+                console.log('Error:', error);
+            }
+        } else {
+            console.log('Operación cancelada.');
+        }
     };
 
 
@@ -68,22 +87,14 @@ export default function FetchPokemon() {
                             nombre={pokemonData.name}
                             tipo={pokemonData.types[0].type.name}
                             habilidades={pokemonData.abilities.map(ability => ability.ability.name).join(', ')} />
-                        <button className='btnSave bg-success text-white border border-1 col-12 btn m-auto mr-2 mt-4 w-50 p-3' onClick={() => handleSavePokemon(pokemonData.id)}>
+                        <button className='btnSave bg-success text-white border border-1 col-12 btn m-auto mr-2 mt-4 w-50 p-3' onClick={() => handleAddPokemon(pokemonData.id)}>
                             Guardar Pokémon
                         </button>
-                        <button className='btnShow col-12 btn m-auto ml-2 mt-4 w-75 p-3' onClick={() => {setNumber(Math.floor(Math.random() * 20) + 1), openModal()}}>
+                        <button className='btnShow col-12 btn m-auto ml-2 mt-4 w-75 p-3' onClick={() => { setNumber(Math.floor(Math.random() * 20) + 1) }}>
                             Mostrar Pokémon
                         </button>
                     </div>
                 </>
-            )}
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>Pokémon guardado exitosamente</h2>
-                        <button onClick={closeModal}>Cerrar</button>
-                    </div>
-                </div>
             )}
 
         </>
