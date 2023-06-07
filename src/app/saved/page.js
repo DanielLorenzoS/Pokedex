@@ -5,10 +5,11 @@ import Nav from '../nav/Nav'
 import './page.css'
 import CardPokemon from '../components/CardPokemon';
 import listGlobal, { getListGlobal, setListGlobal } from '../globals';
+import Swal from 'sweetalert2';
 
 export default function SavedPokemons() {
     const [pokemonDataList, setPokemonDataList] = useState([]); // Estado para la lista de Pokémon guardados
-    const [list, setList] = useState([]); // Ejemplo de lista de Pokémon guardados
+    const [list, setList] = useState(null); // Ejemplo de lista de Pokémon guardados
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,10 +29,12 @@ export default function SavedPokemons() {
         const fetchData = async () => {
             const dataList = [];
 
-            for (let i = 0; i < list.length; i++) {
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
-                const data = await response.json();
-                dataList.push(data);
+            if (list != null) {
+                for (let i = 0; i < list.length; i++) {
+                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
+                    const data = await response.json();
+                    dataList.push(data);
+                }
             }
 
             setPokemonDataList(dataList);
@@ -44,10 +47,12 @@ export default function SavedPokemons() {
         const fetchData = async () => {
             const dataList = [];
 
-            for (let i = 0; i < list.length; i++) {
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
-                const data = await response.json();
-                dataList.push(data);
+            if (list != null) {
+                for (let i = 0; i < list.length; i++) {
+                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${list[i]}`);
+                    const data = await response.json();
+                    dataList.push(data);
+                }
             }
 
             setPokemonDataList(dataList);
@@ -56,55 +61,69 @@ export default function SavedPokemons() {
         fetchData();
     }, [list]);
 
-    const handleRemovePokemon = async (id) => {
-        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este Pokémon de la lista?');
+    const handleRemovePokemon = async (id, name) => {
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+        const confirmDelete = await Swal.fire({
+            title: `¿Estás seguro de que deseas eliminar a ${name} de la Pokedex?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+        });
 
-        if (confirmDelete) {
+        if (confirmDelete.isConfirmed) {
             try {
                 const response = await fetch(`http://localhost:8000/pokemons/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
-                    }
+                    },
                 });
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('Post deleted successfully:', data);
-                    const fetchData = async () => {
+                    Swal.fire({
+                        title: `Se ha eliminado a ${name}`,
+                        icon: 'success'
+                    });
 
-                        const response = await fetch(`http://localhost:8000/pokemons`);
+                    const fetchData = async () => {
+                        const response = await fetch('http://localhost:8000/pokemons');
                         const data = await response.json();
                         let l = [];
-                        data.map(e => l.push(e.pokemon))
-                        console.log(l)
-                        setList(l)
+                        data.map((e) => l.push(e.pokemon));
+                        console.log(l);
+                        setList(l);
                     };
-            
+
                     fetchData();
+
+                    console.log('Post deleted successfully:', data);
                 } else {
                     console.log('Error deleting post:', response.status);
                 }
             } catch (error) {
                 console.log('Error:', error);
             }
-            console.log('Pokémon removed successfully.');
         } else {
             console.log('Operación cancelada.');
         }
     };
 
 
+
     return (
         <>
             <Nav />
-            {list.length === 0 ? (
+            {list === null ? (
+                <h3 className="w-100 text-center">Cargando...</h3>
+            ) : list.length === 0 ? (
                 <h3 className="w-100 text-center">No tienes pokemons guardados</h3>
             ) : (
                 <div className='w-100 card-container'>
                     {pokemonDataList.map((pokemonData, index) => (
-                        <div className='w-25 m-auto d-flex flex-column' key={index}>
+                        <div className='w-25 m-auto d-flex flex-column box' key={index}>
                             <CardPokemon
                                 className="card"
                                 urlImage={pokemonData.sprites.other.dream_world.front_default}
@@ -112,7 +131,7 @@ export default function SavedPokemons() {
                                 tipo={pokemonData.types[0].type.name}
                                 habilidades={pokemonData.abilities.map(ability => ability.ability.name).join(', ')}
                             />
-                            <button className="btnRemove btn btn-danger m-auto p-2 border border-1" onClick={() => handleRemovePokemon(pokemonData.id)}>
+                            <button className="btnRemove btn btn-danger m-auto mb-4 p-2 border border-1" onClick={() => handleRemovePokemon(pokemonData.id, pokemonData.name)}>
                                 Eliminar
                             </button>
                         </div>

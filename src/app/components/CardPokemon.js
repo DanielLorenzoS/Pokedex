@@ -27,7 +27,7 @@ export default function CardPokemon({ urlImage, nombre, tipo, habilidades }) {
     return (
         <>
             <div className={`card text-center ${tipoClass}`}>
-                <img className="image card-img-top w-50 m-auto p-2" src={urlImage} alt="Card image cap" />
+                <img className="image card-img-top m-auto p-2" src={urlImage} alt="Card image cap" />
                 <div className="card-body">
                     <h5 className="card-title text-white">{nombre}</h5>
                 </div>

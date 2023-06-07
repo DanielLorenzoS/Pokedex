@@ -2,8 +2,9 @@
     border: 0 !important;
 }
 .image {
-    width: 10rem !important;
-    margin-top: -2rem !important;
+    width: 12rem !important;
+    height: 12rem !important;
+    margin-top: -3rem !important;
 }
 h5, li {
     text-transform: capitalize;
