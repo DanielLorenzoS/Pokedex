@@ -8,13 +8,14 @@ import listGlobal, { getListGlobal, setListGlobal } from '../globals';
 import Swal from 'sweetalert2';
 
 export default function SavedPokemons() {
-    const [pokemonDataList, setPokemonDataList] = useState([]); // Estado para la lista de Pokémon guardados
-    const [list, setList] = useState(null); // Ejemplo de lista de Pokémon guardados
+    const [pokemonDataList, setPokemonDataList] = useState([]); 
+    const [list, setList] = useState(null); 
+    let url = 'https://pokedex-backend-production-0163.up.railway.app/pokemons';
 
     useEffect(() => {
         const fetchData = async () => {
 
-            const response = await fetch(`http://localhost:8000/pokemons`);
+            const response = await fetch(url);
             const data = await response.json();
             let l = [];
             data.map(e => l.push(e.pokemon))
@@ -73,7 +74,7 @@ export default function SavedPokemons() {
 
         if (confirmDelete.isConfirmed) {
             try {
-                const response = await fetch(`http://localhost:8000/pokemons/${id}`, {
+                const response = await fetch(`${url}/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -89,7 +90,7 @@ export default function SavedPokemons() {
                     });
 
                     const fetchData = async () => {
-                        const response = await fetch('http://localhost:8000/pokemons');
+                        const response = await fetch(url);
                         const data = await response.json();
                         let l = [];
                         data.map((e) => l.push(e.pokemon));
