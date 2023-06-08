@@ -59,6 +59,7 @@ li {
 
     .box {
         width: 60% !important;
+        margin-bottom: 3rem !important;
     }
 }
 
@@ -71,6 +72,6 @@ li {
 
 @media (max-width: 400px) {
     .box {
-        width: 95% !important;
+        width: 85% !important;
     }
 }
