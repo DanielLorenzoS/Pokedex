@@ -4,6 +4,7 @@
 
 .row {
   width: 30%;
+  margin: auto;
 }
 
 .btnShow:hover {
