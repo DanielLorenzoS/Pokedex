@@ -1,4 +1,4 @@
-.nav {
+.navv {
   width: 100%;
   height: 11vh;
   margin-bottom: 10vh;
@@ -19,6 +19,11 @@
 
 .navs {
   margin-right: 20px;
+}
+
+.nav-i {
+  padding: 1rem;
+  color: #fff;
 }
 
 .nav-h2 {

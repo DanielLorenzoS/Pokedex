@@ -7,6 +7,11 @@
     margin-top: -2rem !important;
 }
 
+.txt {
+    width: 100%;
+    text-align: center;
+}
+
 h5,
 li {
     text-transform: capitalize;
@@ -20,22 +25,38 @@ li {
 }
 
 .btnRemove {
-    margin-top: -3rem !important;
-    width: 8rem;
+    width: 70%;
+    margin: auto !important;
+    margin-top: -2rem !important;
+    z-index: 1;
+    background-color: #dc3545;
+    color: white;
+    padding: 1rem 2rem;
+    border: 2px solid white;
+    border-radius: 10px;
     z-index: 1;
 }
 
-.card-container {
+.cardcontainer {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     margin-bottom: 3rem !important;
 }
 
+.box {
+    width: 25%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 @media (max-width: 768px) {
     .card-container {
         flex-direction: column;
     }
+
     .box {
         width: 60% !important;
     }

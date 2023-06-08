@@ -116,16 +116,16 @@ export default function FetchPokemon() {
         <>
             {pokemonData && (
                 <>
-                    <div className='row p-0 justify-content-center'>
-                        <CardPokemon className='m-auto mb-3 card' urlImage={pokemonData.sprites.other.dream_world.front_default}
+                    <div className='roww'>
+                        <CardPokemon className='cardd' urlImage={pokemonData.sprites.other.dream_world.front_default}
                             key={pokemonData.id}
                             nombre={pokemonData.name}
                             tipo={pokemonData.types[0].type.name}
                             habilidades={pokemonData.abilities.map(ability => ability.ability.name).join(', ')} />
-                        <button className='btnSave bg-success text-white border border-1 col-12 btn m-auto mr-2 mt-4 w-50 p-3' onClick={() => handleAddPokemon(pokemonData.id, pokemonData.name)}>
+                        <button className='btnSave' onClick={() => handleAddPokemon(pokemonData.id, pokemonData.name)}>
                             Guardar Pokémon
                         </button>
-                        <button className='btnShow col-12 btn m-auto ml-2 mt-4 w-75 p-3' onClick={() => { setNumber(Math.floor(Math.random() * 20) + 1) }}>
+                        <button className='btnShow' onClick={() => { setNumber(Math.floor(Math.random() * 20) + 1) }}>
                             Mostrar Pokémon
                         </button>
                     </div>

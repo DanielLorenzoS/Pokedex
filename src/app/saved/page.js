@@ -118,21 +118,20 @@ export default function SavedPokemons() {
         <>
             <Nav />
             {list === null ? (
-                <h3 className="w-100 text-center">Cargando...</h3>
+                <h3 className="txt">Cargando...</h3>
             ) : list.length === 0 ? (
-                <h3 className="w-100 text-center">No tienes pokemons guardados</h3>
+                <h3 className="txt">No tienes pokemons guardados</h3>
             ) : (
-                <div className='w-100 card-container'>
+                <div className='cardcontainer'>
                     {pokemonDataList.map((pokemonData, index) => (
-                        <div className='w-25 m-auto d-flex flex-column box' key={index}>
+                        <div className='box' key={index}>
                             <CardPokemon
-                                className="card"
                                 urlImage={pokemonData.sprites.other.dream_world.front_default}
                                 nombre={pokemonData.name}
                                 tipo={pokemonData.types[0].type.name}
                                 habilidades={pokemonData.abilities.map(ability => ability.ability.name).join(', ')}
                             />
-                            <button className="btnRemove btn btn-danger m-auto mb-4 p-2 border border-1" onClick={() => handleRemovePokemon(pokemonData.id, pokemonData.name)}>
+                            <button className="btnRemove" onClick={() => handleRemovePokemon(pokemonData.id, pokemonData.name)}>
                                 Eliminar
                             </button>
                         </div>
