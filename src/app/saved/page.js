@@ -10,13 +10,15 @@ import Swal from 'sweetalert2';
 export default function SavedPokemons() {
     const [pokemonDataList, setPokemonDataList] = useState([]); 
     const [list, setList] = useState(null); 
-    let url = 'https://pokedex-backend-production-0163.up.railway.app/pokemons';
+    let url = 'https://pokedexspring-production.up.railway.app';
 
     useEffect(() => {
+        console.log("cargando...")
         const fetchData = async () => {
 
             const response = await fetch(url);
             const data = await response.json();
+            console.log(data)
             let l = [];
             data.map(e => l.push(e.pokemon))
             console.log(l)

@@ -11,7 +11,7 @@ export default function FetchPokemon() {
     const [number, setNumber] = useState(Math.floor(Math.random() * 20) + 1);
     const [pokemonData, setPokemonData] = useState(null);
     const [list, setList] = useState(null);
-    let url = 'https://pokedex-backend-production-0163.up.railway.app/pokemons';
+    let url = 'https://pokedexspring-production.up.railway.app';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -126,7 +126,7 @@ export default function FetchPokemon() {
                             Guardar Pokémon
                         </button>
                         <button className='btnShow' onClick={() => { setNumber(Math.floor(Math.random() * 20) + 1) }}>
-                            Mostrar Pokémon
+                            Cambiar Pokémon
                         </button>
                     </div>
                 </>
